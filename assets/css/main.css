@@ -982,6 +982,14 @@ section,
   overflow: hidden;
 }
 
+/* Ensure uniform image sizing/alignment for all people cards */
+.speakers .member img {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* square cards */
+  object-fit: cover;
+  display: block;
+}
+
 .speakers .member .member-info {
   position: absolute;
   padding: 15px 0;
@@ -1042,6 +1050,14 @@ section,
 .speakers .talk-title {
   color: var(--default-color);
   text-align: center;
+}
+
+/* Five-per-row layout for people grids on wide screens */
+@media (min-width: 1200px) {
+  .speakers .row.five-per-row > [class*="col-"] {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
 }
 
 /*--------------------------------------------------------------
