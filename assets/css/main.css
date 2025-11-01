@@ -3683,6 +3683,42 @@ section,
 }
 
 
+/* ===== PEOPLE NAME/AFFILIATION — force bigger text (last block) ===== */
+:root{
+  --name-font: 20px;   /* tweak here */
+  --affil-font: 16px;  /* tweak here */
+}
+
+.speakers .member .member-info-content h4,
+#organizers .member .member-info-content h4,
+#panelists .member .member-info-content h4,
+#advisors .member .member-info-content h4{
+  font-size: var(--name-font) !important;
+  line-height: 1.35 !important;
+}
+
+.speakers .member .member-info-content span,
+#organizers .member .member-info-content span,
+#panelists .member .member-info-content span,
+#advisors .member .member-info-content span,
+.speakers .member .member-info-content p,
+#organizers .member .member-info-content p,
+#panelists .member .member-info-content p,
+#advisors .member .member-info-content p{
+  font-size: var(--affil-font) !important;
+  line-height: 1.35 !important;
+  color: #6a6a6a !important;
+}
+
+/* Optional: responsive scaling (keeps size nice on large screens) */
+@media (min-width: 1200px){
+  :root{
+    --name-font: clamp(18px, 1.2vw, 22px);
+    --affil-font: clamp(15px, 1.0vw, 18px);
+  }
+}
+
+
 
 
 
