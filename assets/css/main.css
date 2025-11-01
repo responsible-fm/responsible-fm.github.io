@@ -1705,50 +1705,57 @@ section,
 
 /* === FINAL: Uniform white cards + full images (no crop) === */
 
+/* Make each grid column stretch its card so all boxes align */
+#speakers .row.gy-4 > [class*="col-"],
+#organizers .row.gy-4 > [class*="col-"],
+#panelists .row.gy-4 > [class*="col-"],
+#advisors  .row.gy-4 > [class*="col-"] { display: flex; }
+#speakers .row.gy-4 > [class*="col-"] > .member,
+#organizers .row.gy-4 > [class*="col-"] > .member,
+#panelists .row.gy-4 > [class*="col-"] > .member,
+#advisors  .row.gy-4 > [class*="col-"] > .member { width: 100%; }
+
 /* Base card (all groups) */
 .speakers .member,
 #organizers .member,
 #panelists .member,
 #advisors .member {
   position: relative;
-  background: #fff !important;     /* kill the black background */
+  background: #fff !important;
   border-radius: 6px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: auto !important;   /* neutralize earlier 4/3 */
 }
 
 /* Per-section, consistent box height */
-.speakers .member { height: 360px !important; }    /* speakers = larger */
+.speakers .member { height: 360px !important; }               /* speakers */
 #organizers .member,
 #panelists .member,
-#advisors .member { height: 300px !important; }    /* org/advisors = same */
+#advisors .member { height: 300px !important; }               /* org/advisors */
 
 /* Images: show the whole photo, centered; never crop */
 .speakers .member img,
 #organizers .member img,
 #panelists .member img,
 #advisors .member img {
-  width: auto;                      /* keep natural aspect */
-  height: 100%;                     /* fit card height */
-  max-width: 100%;                  /* prevent overflow on landscape shots */
-  object-fit: contain !important;   /* full image visible */
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain !important;
   object-position: center center !important;
-  background: #fff !important;      /* any letterbox area = white */
-  transform: none !important;       /* no zoom */
+  background: #fff !important;
+  display: block;
+  margin: 0 auto;
+  transform: none !important;                                  /* disable theme zoom */
 }
-
-/* Disable any template hover zoom */
 .speakers .member:hover img,
 #organizers .member:hover img,
 #panelists .member:hover img,
-#advisors .member:hover img {
-  transform: none !important;
-}
+#advisors .member:hover img { transform: none !important; }
 
-/* Overlay: keep consistent, on top, readable */
+/* Overlay: pinned, readable, consistent */
 .speakers .member .member-info,
 #organizers .member .member-info,
 #panelists .member .member-info,
@@ -1761,8 +1768,8 @@ section,
               rgba(0,0,0,0.35) 45%,
               rgba(0,0,0,0.75) 100%);
   color: #fff;
-  inset: auto 0 0 0 !important;     /* override any negative offset */
-  transform: none !important;       /* no slide-in behavior */
+  inset: auto 0 0 0 !important;
+  transform: none !important;
 }
 
 /* Text wrapping inside overlay */
@@ -1787,40 +1794,6 @@ section,
   opacity: 0.9;
   white-space: normal;
 }
-/* === [REFINED FIX] Uniform box heights and centered full images === */
 
-/* 1. Same height per group */
-.speakers .member { height: 360px !important; }
-#organizers .member,
-#panelists .member,
-#advisors .member { height: 300px !important; }
 
-/* 2. Image fills vertical space equally, stays centered */
-.speakers .member img,
-#organizers .member img,
-#panelists .member img,
-#advisors .member img {
-  width: auto;
-  height: 100%;                     /* use full height for consistency */
-  max-width: 100%;                  /* prevent horizontal overflow */
-  object-fit: contain !important;   /* show full image */
-  object-position: center center !important;
-  background: #fff !important;      /* ensure white background */
-  display: block;
-  margin: 0 auto;                   /* center horizontally if narrower */
-}
-
-/* 3. Flexbox alignment to keep bottom edges equal */
-.speakers .member,
-#organizers .member,
-#panelists .member,
-#advisors .member {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  border-radius: 6px;
-  overflow: hidden;
-  position: relative;
-}
 
