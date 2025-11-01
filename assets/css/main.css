@@ -3677,7 +3677,58 @@ section,
   bottom: auto !important;
 }
 
+/* ===== PEOPLE CARDS — last-mile fixes (put at the very end) ===== */
 
+/* Remove the white “letterbox” background from the IMG itself */
+.speakers .member img,
+#organizers .member img,
+#panelists .member img,
+#advisors .member img {
+  background: transparent !important;   /* was #fff */
+  box-shadow: none !important;          /* move shadow to card to avoid halo */
+}
+
+/* Put the soft shadow on the card instead (keeps the same look) */
+.speakers .member,
+#organizers .member,
+#panelists .member,
+#advisors .member {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  border-radius: var(--avatar-radius);
+  background: transparent !important;   /* ensure the card itself isn’t white */
+}
+
+/* Keep image sizing and no-crop behavior exactly as you had */
+.speakers .member img,
+#organizers .member img,
+#panelists .member img,
+#advisors .member img {
+  width: var(--avatar-size) !important;
+  height: var(--avatar-size) !important;
+  object-fit: contain !important;       /* show the whole image, no crop */
+  object-position: center center !important;
+  display: block;
+  margin: 0 auto;
+  border-radius: var(--avatar-radius);
+}
+
+/* Extra safety — strip any template padding that might masquerade as margins */
+.speakers .member img,
+#organizers .member img,
+#panelists .member img,
+#advisors .member img {
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+/* If any template overlay tries to add a background behind the img, kill it */
+.speakers .member::before, .speakers .member::after,
+#organizers .member::before, #organizers .member::after,
+#panelists .member::before, #panelists .member::after,
+#advisors .member::before, #advisors .member::after {
+  content: none !important;
+  background: transparent !important;
+}
 
 
 
