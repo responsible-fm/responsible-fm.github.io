@@ -3527,91 +3527,98 @@ section,
 }
 
 /* ===========================================================
-   PEOPLE CARDS — centered tiles, full-fill images (cropped to fit), black text
+   PEOPLE CARDS — like the screenshot:
+   - uniform square photos with rounded corners
+   - image fully fills box (center-crop)
+   - soft shadow under the photo
+   - centered captions in black
+   Targets: .speakers, #organizers, #panelists, #advisors
    =========================================================== */
 
-:root {
-  --tile-size: 280px;      /* overall card width */
-  --avatar-size: 240px;    /* square image inside card */
-  --avatar-radius: 14px;   /* rounded corners for box */
+:root{
+  /* knobs */
+  --tile-size: 300px;        /* overall card width (column content) */
+  --photo-size: 260px;       /* square photo box size */
+  --photo-radius: 18px;      /* rounded corners for the photo */
+  --photo-shadow: 0 10px 28px rgba(0,0,0,.18);
+  --face-bias-y: 40%;        /* vertical crop bias (lift toward the eyes) */
+  --auto-zoom: 1.06;         /* gentle zoom to ensure edge-to-edge fill */
+  --gap-bottom: 30px;        /* space below each card */
 }
 
-/* Center each column’s content */
+/* Center each Bootstrap column’s contents */
 .speakers .row > [class*="col-"],
 #organizers .row > [class*="col-"],
 #panelists .row > [class*="col-"],
-#advisors  .row > [class*="col-"] {
-  display: flex;
-  justify-content: center;
+#advisors  .row > [class*="col-"]{
+  display:grid;
+  place-items:center;
 }
 
-/* Card container */
+/* Card container (acts like a figure) */
 .speakers .member,
 #organizers .member,
 #panelists .member,
-#advisors .member {
-  width: var(--tile-size);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  background: transparent;
-  border: 0;
-  margin: 0 auto 28px;
-  padding-top: 10px;
-  overflow: visible !important;
-  position: relative !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  border-radius: var(--avatar-radius);
+#advisors .member{
+  width:var(--tile-size);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+
+  margin:0 auto var(--gap-bottom);
+  padding:0;
+  background:transparent !important;
+  border:0;
+  position:relative !important;
 }
 
-/* Image — fills the square box, center crop */
+/* ===== PHOTO =====
+   Square, rounded, image fills (cover), soft shadow like the screenshot */
 .speakers .member img,
 #organizers .member img,
 #panelists .member img,
-#advisors .member img {
-  display: block;
-  width: var(--avatar-size) !important;
-  height: var(--avatar-size) !important;
-  object-fit: cover !important;          /* fill & crop */
-  object-position: center center !important;
-  border-radius: var(--avatar-radius);
-  margin: 0 auto;
-  background: transparent !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  border: 0 !important;
+#advisors .member img{
+  display:block;
+  width:var(--photo-size) !important;
+  height:var(--photo-size) !important;
+
+  object-fit:cover !important;                     /* fill the square */
+  object-position:center var(--face-bias-y) !important;
+
+  /* subtle zoom to avoid any leftover edge/letterbox from sources */
+  transform:scale(var(--auto-zoom));
+  transform-origin:center center;
+  will-change:transform;
+
+  border-radius:var(--photo-radius);
+  box-shadow:var(--photo-shadow);
+  clip-path:inset(0 round var(--photo-radius));    /* clip zoom inside corners */
+
+  margin:0 auto;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;               /* no white halo */
 }
 
-/* Force black text everywhere */
-.speakers,
-#organizers,
-#panelists,
-#advisors {
-  --default-color: #000 !important;
-  --heading-color: #000 !important;
-  --contrast-color: #000 !important;
-  color: #000 !important;
-}
-
-/* Normal caption under image (no overlay) */
+/* ===== CAPTION (no overlays, centered, black text) ===== */
 .speakers .member .member-info,
 #organizers .member .member-info,
 #panelists .member .member-info,
-#advisors .member .member-info {
-  position: static !important;
-  inset: auto !important;
-  background: transparent !important;
-  padding: 6px 0 0 !important;
-  margin: 0 !important;
-  opacity: 1 !important;
-  text-shadow: none !important;
-  mix-blend-mode: normal !important;
-  box-shadow: none !important;
-  color: #000 !important;
+#advisors .member .member-info{
+  position:static !important;
+  inset:auto !important;
+  background:transparent !important;
+  padding:10px 0 0 !important;
+  margin:0 !important;
+  opacity:1 !important;
+  text-shadow:none !important;
+  mix-blend-mode:normal !important;
+  box-shadow:none !important;
+  color:#000 !important;
 }
 
-/* Remove pseudo overlays */
+/* Remove any template-added pseudo overlays */
 .speakers .member .member-info::before,
 .speakers .member .member-info::after,
 #organizers .member .member-info::before,
@@ -3619,64 +3626,62 @@ section,
 #panelists .member .member-info::before,
 #panelists .member .member-info::after,
 #advisors .member .member-info::before,
-#advisors .member .member-info::after {
-  content: none !important;
-  background: transparent !important;
+#advisors .member .member-info::after{
+  content:none !important;
+  background:transparent !important;
 }
 
-/* Typography */
+/* Typography like the screenshot */
 .speakers .member .member-info-content h4,
 #organizers .member .member-info-content h4,
 #panelists .member .member-info-content h4,
-#advisors .member .member-info-content h4 {
-  color: #000 !important;
-  font-weight: 700;
-  font-size: 15px;
-  margin: 6px 0 3px;
-  line-height: 1.3;
+#advisors .member .member-info-content h4{
+  color:#000 !important;
+  font-weight:700;
+  font-size:15px;
+  margin:8px 0 4px;
+  line-height:1.3;
 }
-
 .speakers .member .member-info-content h4 a,
 #organizers .member .member-info-content h4 a,
 #panelists .member .member-info-content h4 a,
-#advisors .member .member-info-content h4 a {
-  color: #000 !important;
-  text-decoration: none;
+#advisors .member .member-info-content h4 a{
+  color:#000 !important;
+  text-decoration:none;
 }
-
 .speakers .member .member-info-content span,
 #organizers .member .member-info-content span,
 #panelists .member .member-info-content span,
-#advisors .member .member-info-content span {
-  color: #444 !important;
-  font-size: 13px;
+#advisors .member .member-info-content span{
+  color:#6a6a6a !important;
+  font-size:13px;
 }
-
 .speakers .member .member-info-content p,
 #organizers .member .member-info-content p,
 #panelists .member .member-info-content p,
-#advisors .member .member-info-content p {
-  color: #000 !important;
-  font-size: 14px;
-  margin-top: 4px;
+#advisors .member .member-info-content p{
+  color:#000 !important;
+  font-size:14px;
+  margin-top:6px;
 }
 
-/* Ensure everything stays black */
+/* Keep all caption descendants black */
 .speakers .member .member-info *,
 #organizers .member .member-info *,
 #panelists .member .member-info *,
-#advisors  .member .member-info * {
-  color: #000 !important;
+#advisors .member .member-info *{
+  color:#000 !important;
 }
 
-/* Disable overlay hover transitions */
+/* Disable any hover-reveal animations from template */
 .speakers .member:hover .member-info,
 #organizers .member:hover .member-info,
 #panelists .member:hover .member-info,
-#advisors .member:hover .member-info {
-  transform: none !important;
-  bottom: auto !important;
+#advisors .member:hover .member-info{
+  transform:none !important;
+  bottom:auto !important;
 }
+
 
 
 
