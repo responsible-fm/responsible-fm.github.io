@@ -1689,6 +1689,20 @@ section,
   /* Add your styles here */
 }
 
+.member a.member-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+  height: 100%;
+}
+
+.member a.member-link:hover {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
 /* === [PATCH] Normalize headshot cards & fix overlay clipping === */
 
 /* 0) Target all four grids uniformly */
