@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ResponsibleFM @ NeurIPS 2025 — Poster</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg-dark: rgba(0,0,0,.55); --fg: #f5f7fa; --muted: #c8d1dc; --accent: #00d1b2; }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; font-family: Inter, Poppins, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; color: var(--fg); }
+    body { display: grid; place-items: center; background: #0b1120; }
+    /* Fixed 16:9 canvas: 1920x1080 */
+    .poster { position: relative; width: 1560px; height: 820px; margin: 0 auto; overflow: hidden; border-radius: 18px; box-shadow: 0 10px 40px rgba(0,0,0,.6); }
+    .bg { position: absolute; inset: 0; background: url('assets/img/bg.jpg') center/cover no-repeat; filter: brightness(.72) saturate(1.05); }
+    .overlay { position: absolute; inset: 0; background: radial-gradient(1200px 600px at 20% 10%, rgba(0,209,178,.18), transparent 45%), linear-gradient(180deg, rgba(7, 13, 28, .35), rgba(7, 13, 28, .7)); }
+    .content { position: relative; display: grid; grid-template-rows: auto 1fr; gap: 3px; height: 100%; padding: 5px 16px 35px; }
+
+    /* Header */
+    .header { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start; }
+    .title { font-family: Poppins, Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; font-size: 34px; font-weight: 800; line-height: 1.15; letter-spacing: .2px; }
+    .subtitle { margin-top: 2px; font-size: 14px; color: var(--muted); }
+    .logo { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.95); padding: 6px 12px; border-radius: 12px; border: 1px solid rgba(0,0,0,.08); box-shadow: 0 4px 18px rgba(0,0,0,.15); }
+    .logo img { height: 96px; width: auto; filter: none; }
+    .website { margin-top: 3px; font-weight: 600; color: #e9f2ff; font-size: 20px; }
+    .email { margin-top: 2px; font-weight: 600; color: #e9f2ff; font-size: 20px; }
+    .where { margin-top: 3px; font-weight: 700; color: #e7eef7; text-align: right; font-size: 18px; }
+
+    /* Grid */
+    .grid { display: grid; grid-template-columns: 870px 1fr; grid-template-rows: 220px 350px; gap: 10px; height: 100%; }
+    .card { background: var(--bg-dark); border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 10px; overflow: hidden; }
+    .card h3 { margin: 0 0 6px; font-family: Poppins, Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; font-size: 18px; font-weight: 800; letter-spacing: .2px; display: flex; align-items: center; gap: 8px; }
+    .card h3 .dot { display: inline-block; width: .6em; height: .6em; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(0,209,178,.18); }
+    .list { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px 14px; font-size: 14px; }
+    .mono { font-variant-numeric: tabular-nums; color: var(--muted); }
+
+    /* People grid with avatars */
+    .people-grid { display: grid; justify-content: start; align-items: start; }
+    .people-grid.speakers { grid-template-columns: repeat(6, 140px); gap: 1px 2px; }
+    .people-grid.advisors { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px 8px; }
+    .people-grid.organizers { grid-template-columns: repeat(7, 120px); gap: 18px 2px; }
+    .person { display: grid; justify-items: center; text-align: center; margin: 0; }
+    .person img { width: 108px; height: 108px; object-fit: cover; object-position: top center; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.18); }
+    .person figcaption { margin-top: 2px; font-size: 12px; line-height: 1.2; }
+    .person .aff { color: var(--muted); font-size: 11px; }
+
+    /* Placement */
+    .speakers-card { grid-column: 1; grid-row: 1; }
+    .organizers-card { grid-column: 1; grid-row: 2; }
+    .advisors-card { grid-column: 2; grid-row: 1; }
+    .topics-card { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; }
+
+    /* Key dates box */
+    .keydates { padding: 8px 10px; border: 1px dashed rgba(255,255,255,.2); border-radius: 10px; background: rgba(255,255,255,.04); margin-bottom: 8px; }
+    .keydates h4 { margin: 0 0 4px; font-size: 16px; }
+    .keydates ul { margin: 0; padding-left: 16px; font-size: 13px; line-height: 1.35; }
+
+    /* Topics */
+    .topics { display: grid; grid-template-columns: 1fr; gap: 8px; align-content: start; }
+    .topic { padding: 10px 12px; border: 1px dashed rgba(255,255,255,.14); border-radius: 10px; background: rgba(255,255,255,.04); }
+    .topic strong { display: block; margin-bottom: 6px; font-size: 15px; }
+    .topic ul { margin: 4px 0 0; padding-left: 18px; }
+    .topic li { margin: 4px 0; color: var(--muted); font-size: 13px; line-height: 1.3; }
+
+    /* Footer strip */
+    .footer { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); font-size: 13px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px 10px; }
+    .badge { padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); color: #e9f0f7; }
+    /* No responsive rules: fixed layout */
+  </style>
+</head>
+
+<body>
+  <div class="poster" role="document">
+    <div class="bg" aria-hidden="true"></div>
+    <div class="overlay" aria-hidden="true"></div>
+
+    <div class="content">
+      <div class="header">
+        <div>
+          <div class="title">NeurIPS 2025 Workshop on<br><span>Socially Responsible and Trustworthy Foundation Models</span> (ResponsibleFM)</div>
+          <div class="website">🌐 https://responsible-fm.github.io/</div>
+          <div class="email">✉️ responsiblefm.workshop@gmail.com</div>
+          <div class="subtitle">Towards ethical, trustworthy, and socially beneficial foundation models</div>
+        </div>
+        <div class="logo">
+          <img src="assets/img/organizers/nips_logo.png" alt="NeurIPS">
+        </div>
+      </div>
+      <div class="where">NeurIPS 2025 Workshop · Hybird Mode (Virtual and Hilton Mexico City Reforma)</div>
+
+      <div class="grid">
+        <div class="card speakers-card">
+          <h3><span class="dot"></span> Invited Speakers (Tentative)</h3>
+          <div class="people-grid speakers">
+            <figure class="person"><img src="assets/img/speakers/yoshuabengio.png" alt="Yoshua Bengio"><figcaption><strong>Yoshua Bengio</strong><div class="aff">Université de Montréal · Mila</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/speakers/Kush.jpeg" alt="Kush R. Varshney"><figcaption><strong>Kush R. Varshney</strong><div class="aff">IBM Research</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/speakers/diyiyang.jpg" alt="Diyi Yang"><figcaption><strong>Diyi Yang</strong><div class="aff">Stanford University</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/speakers/HimabinduLakkaraju.png" alt="Himabindu Lakkaraju"><figcaption><strong>Himabindu Lakkaraju</strong><div class="aff">Harvard University</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/speakers/AylinCaliskan.png" alt="Aylin Caliskan"><figcaption><strong>Aylin Caliskan</strong><div class="aff">University of Washington</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/speakers/SanmiKoyejo.jpg" alt="Sanmi Koyejo"><figcaption><strong>Sanmi Koyejo</strong><div class="aff">Stanford University</div></figcaption></figure>
+          </div>
+        </div>
+
+        <div class="card advisors-card">
+          <h3><span class="dot"></span> Advising Committee</h3>
+          <div class="people-grid advisors">
+            <figure class="person"><img src="assets/img/advisers/Dawnsong.jpg" alt="Dawn Song"><figcaption><strong>Dawn Song</strong><div class="aff">University of California, Berkeley</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/advisers/yejinchoi.png" alt="Yejin Choi"><figcaption><strong>Yejin Choi</strong><div class="aff">University of Washington · AI2</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/advisers/mohit.png" alt="Mohit Bansal"><figcaption><strong>Mohit Bansal</strong><div class="aff">UNC Chapel Hill</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/advisers/robertnowak.jpg" alt="Robert Nowak"><figcaption><strong>Robert Nowak</strong><div class="aff">University of Wisconsin–Madison</div></figcaption></figure>
+          </div>
+        </div>
+
+        <div class="card organizers-card">
+          <h3><span class="dot"></span> Organizers</h3>
+          <div class="people-grid organizers">
+            <figure class="person"><img src="assets/img/organizers/canyuchen.jpg" alt="Canyu Chen"><figcaption><strong>Canyu Chen</strong><div class="aff">Northwestern</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/organizers/yuehuang.jpg" alt="Yue Huang"><figcaption><strong>Yue Huang</strong><div class="aff">Notre Dame</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/organizers/zheyuanliu.png" alt="Zheyuan Liu"><figcaption><strong>Zheyuan Liu</strong><div class="aff">Notre Dame</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/organizers/yilunzhao.jpg" alt="Yilun Zhao"><figcaption><strong>Yilun Zhao</strong><div class="aff">Yale</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/organizers/zhaorunchen.jpg" alt="Zhaorun Chen"><figcaption><strong>Zhaorun Chen</strong><div class="aff">UChicago</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/organizers/haoyuebai.jpg" alt="Haoyue Bai"><figcaption><strong>Haoyue Bai</strong><div class="aff">UW–Madison</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/organizers/xuandongzhao.jpg" alt="Xuandong Zhao"><figcaption><strong>Xuandong Zhao</strong><div class="aff">UC Berkeley</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/organizers/yiyousun.jpg" alt="Yiyou Sun"><figcaption><strong>Yiyou Sun</strong><div class="aff">UC Berkeley</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/organizers/juanyuan-hong.png" alt="Juanyuan Hong"><figcaption><strong>Juanyuan Hong</strong><div class="aff">NUS</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/organizers/xuefeng-du.png" alt="Xuefeng Du"><figcaption><strong>Xuefeng Du</strong><div class="aff">NTU</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/organizers/jindonggu.jpg" alt="Jindong Gu"><figcaption><strong>Jindong Gu</strong><div class="aff">Google DeepMind</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/organizers/armancohan.jpg" alt="Arman Cohan"><figcaption><strong>Arman Cohan</strong><div class="aff">Yale</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/organizers/xiangliang.jpg" alt="Xiangliang Zhang"><figcaption><strong>Xiangliang Zhang</strong><div class="aff">Notre Dame</div></figcaption></figure>
+            <figure class="person"><img src="assets/img/organizers/manlingli.jpg" alt="Manling Li"><figcaption><strong>Manling Li</strong><div class="aff">Northwestern · Stanford</div></figcaption></figure>
+          </div>
+        </div>
+
+        <div class="card topics-card">
+          <h3><span class="dot"></span>Submission Guidelines</h3>
+          <div class="keydates">
+            <div style="font-size: 13px; margin-bottom: 6px;">🗓️ Submission: Nov 3 | ✅ Notification: Nov 7 | 📝 Camera-ready: Nov 23</div>
+            <div style="font-size: 13px;">We will select one Best Paper and one Outstanding Paper.</div>
+          </div>
+          <div class="topics">
+            <div class="topic">
+              <strong>Submission Scope (Not Limited to)</strong>
+              <ul>
+                <li>Foundations: fairness, safety, truthfulness, privacy, explainability, robustness, cultural awareness; rigorous evaluation protocols</li>
+                <li>Techniques: bias mitigation, knowledge editing, continual learning, machine unlearning</li>
+                <li>Safety & Security: watermarking/provenance, adversarial & jailbreak defenses, red teaming</li>
+                <li>Applications & Impact: healthcare, education, policy, social welfare, environment; risk management in high-stakes settings</li>
+                <li>Data & Benchmarks: diverse, comprehensive fairness/robustness/privacy benchmarks/data/model cards</li>
+                <li>Governance: insights from social sciences, philosophy, law, and policy; compliance, auditability, regulation, participatory governance</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+</html>
+
+
