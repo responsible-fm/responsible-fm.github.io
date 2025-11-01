@@ -1795,5 +1795,113 @@ section,
     border-radius: 8px;  /* same look; height stays square via aspect-ratio */
   }
 }
+/* ============================
+   Poster-style headshots (no overlay)
+   Apply to speakers/organizers/panelists/advisors
+   ============================ */
+
+/* 1) Reset container tiles: no background panel, no forced square card */
+.speakers .member,
+#organizers .member,
+#panelists .member,
+#advisors .member {
+  position: static;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  padding: 6px 0;
+  /* if an older block set aspect-ratio, cancel it */
+  aspect-ratio: auto;
+}
+
+/* 2) Avatar image: fixed size, top-anchored crop, soft radius + subtle ring */
+.speakers .member img,
+#organizers .member img,
+#panelists .member img,
+#advisors .member img {
+  width: 108px;
+  height: 108px;
+  object-fit: cover;
+  object-position: 50% 0;     /* top anchored like the poster */
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,.18);
+  display: block;
+  background: #fff;
+  transform: none !important; /* kill any previous hover zoom */
+}
+
+/* 3) Turn the overlay caption into a normal block under the image */
+.speakers .member .member-info,
+#organizers .member .member-info,
+#panelists .member .member-info,
+#advisors .member .member-info {
+  position: static;            /* no absolute overlay */
+  inset: auto;
+  padding: 4px 0 0;
+  margin: 0;
+  background: transparent;     /* remove gradient/dark glass */
+  color: inherit;
+  pointer-events: auto;         /* clickable links behave normally */
+  transition: none;
+}
+
+/* If an older rule was sliding the overlay up on hover, neutralize it */
+.speakers .member:hover .member-info,
+#organizers .member:hover .member-info,
+#panelists .member:hover .member-info,
+#advisors .member:hover .member-info {
+  bottom: auto;
+}
+
+/* 4) Typography to match poster vibe */
+.speakers .member .member-info-content h4,
+#organizers .member .member-info-content h4,
+#panelists .member .member-info-content h4,
+#advisors .member .member-info-content h4 {
+  margin: 4px 0 2px;
+  line-height: 1.2;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--default-color);
+  white-space: normal;
+}
+
+.speakers .member .member-info-content span,
+#organizers .member .member-info-content span,
+#panelists .member .member-info-content span,
+#advisors .member .member-info-content span {
+  display: block;
+  font-size: 11px;
+  line-height: 1.2;
+  color: color-mix(in srgb, var(--default-color), transparent 35%);
+  white-space: normal;
+}
+
+/* 5) Kill the old dark-on-image color scheme for speakers section */
+.speakers { --default-color: inherit; }
+
+/* 6) Remove previous hover color flips meant for overlays */
+.speakers .member .social,
+.speakers .member .social a,
+.speakers .member .social i {
+  color: inherit;
+  background: transparent;
+}
+
+/* 7) Optional: tighten vertical rhythm on dense grids */
+@media (min-width: 992px) {
+  #organizers .member,
+  #panelists .member,
+  #advisors .member {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+}
+
 
 
