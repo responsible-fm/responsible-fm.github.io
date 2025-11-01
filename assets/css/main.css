@@ -1787,4 +1787,40 @@ section,
   opacity: 0.9;
   white-space: normal;
 }
+/* === [REFINED FIX] Uniform box heights and centered full images === */
+
+/* 1. Same height per group */
+.speakers .member { height: 360px !important; }
+#organizers .member,
+#panelists .member,
+#advisors .member { height: 300px !important; }
+
+/* 2. Image fills vertical space equally, stays centered */
+.speakers .member img,
+#organizers .member img,
+#panelists .member img,
+#advisors .member img {
+  width: auto;
+  height: 100%;                     /* use full height for consistency */
+  max-width: 100%;                  /* prevent horizontal overflow */
+  object-fit: contain !important;   /* show full image */
+  object-position: center center !important;
+  background: #fff !important;      /* ensure white background */
+  display: block;
+  margin: 0 auto;                   /* center horizontally if narrower */
+}
+
+/* 3. Flexbox alignment to keep bottom edges equal */
+.speakers .member,
+#organizers .member,
+#panelists .member,
+#advisors .member {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
 
