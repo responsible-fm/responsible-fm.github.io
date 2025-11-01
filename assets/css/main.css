@@ -3638,7 +3638,7 @@ section,
 #advisors .member .member-info-content h4{
   color:#000 !important;
   font-weight:700;
-  font-size:15px;
+  font-size:18px;
   margin:8px 0 4px;
   line-height:1.3;
 }
@@ -3654,7 +3654,7 @@ section,
 #panelists .member .member-info-content span,
 #advisors .member .member-info-content span{
   color:#6a6a6a !important;
-  font-size:13px;
+  font-size:15px;
 }
 .speakers .member .member-info-content p,
 #organizers .member .member-info-content p,
