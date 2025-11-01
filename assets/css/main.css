@@ -1703,227 +1703,88 @@ section,
   cursor: pointer;
 }
 
-/* === [PATCH] Normalize headshot cards & fix overlay clipping === */
+/* === FINAL: Uniform white cards + full images (no crop) === */
 
-/* 0) Target all four grids uniformly */
+/* Base card (all groups) */
 .speakers .member,
 #organizers .member,
 #panelists .member,
 #advisors .member {
   position: relative;
-  aspect-ratio: 4 / 3;          /* consistent, slightly taller tiles */
-  background: #000;
-  border-radius: 4px;
+  background: #fff !important;     /* kill the black background */
+  border-radius: 6px;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: auto !important;   /* neutralize earlier 4/3 */
 }
 
-/* 1) Make all member photos the same shape and crop neatly */
+/* Per-section, consistent box height */
+.speakers .member { height: 360px !important; }    /* speakers = larger */
+#organizers .member,
+#panelists .member,
+#advisors .member { height: 300px !important; }    /* org/advisors = same */
+
+/* Images: show the whole photo, centered; never crop */
 .speakers .member img,
 #organizers .member img,
 #panelists .member img,
 #advisors .member img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;            /* uniform crop across mixed source ratios */
-  object-position: 50% 35%;     /* keep foreheads in frame; tweak 30–40% if needed */
+  width: auto;                      /* keep natural aspect */
+  height: 100%;                     /* fit card height */
+  max-width: 100%;                  /* prevent overflow on landscape shots */
+  object-fit: contain !important;   /* full image visible */
+  object-position: center center !important;
+  background: #fff !important;      /* any letterbox area = white */
+  transform: none !important;       /* no zoom */
 }
 
-/* 2) Keep the black overlay fully visible (not hidden below the image) */
+/* Disable any template hover zoom */
+.speakers .member:hover img,
+#organizers .member:hover img,
+#panelists .member:hover img,
+#advisors .member:hover img {
+  transform: none !important;
+}
+
+/* Overlay: keep consistent, on top, readable */
 .speakers .member .member-info,
 #organizers .member .member-info,
 #panelists .member .member-info,
 #advisors .member .member-info {
-  position: absolute;
+  position: absolute !important;
   left: 0; right: 0; bottom: 0;
-  inset: auto 0 0 0 !important; /* override theme’s negative bottom */
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%,
-                                         rgba(0,0,0,.25) 20%,
-                                         rgba(0,0,0,.75) 100%);
-  padding: 14px 16px;
-  min-height: 80px;             /* room for name + affiliation (2 lines) */
-  overflow: visible;            /* don’t clip wrapping text */
-  transform: none !important;   /* keep fixed (theme sometimes slides it) */
+  padding: 12px 14px;
+  background: linear-gradient(180deg,
+              rgba(255,255,255,0) 0%,
+              rgba(0,0,0,0.35) 45%,
+              rgba(0,0,0,0.75) 100%);
+  color: #fff;
+  inset: auto 0 0 0 !important;     /* override any negative offset */
+  transform: none !important;       /* no slide-in behavior */
 }
 
-/* The theme reveals overlay on hover by moving it up; neutralize that */
-.speakers .member:hover .member-info,
-#organizers .member:hover .member-info,
-#panelists .member:hover .member-info,
-#advisors .member:hover .member-info {
-  bottom: 0 !important;
-}
-
-/* 3) Allow long names & affiliations to wrap cleanly */
+/* Text wrapping inside overlay */
 .speakers .member .member-info-content h4,
 #organizers .member .member-info-content h4,
 #panelists .member .member-info-content h4,
 #advisors .member .member-info-content h4 {
-  margin: 0 0 4px 0;
+  margin: 0 0 4px;
   line-height: 1.2;
-  font-size: 16px;              /* ≈ 1rem */
-  white-space: normal;          /* wrap; prevents truncation */
+  font-size: 16px;
+  white-space: normal;
   color: #fff;
 }
-
 .speakers .member .member-info-content span,
 #organizers .member .member-info-content span,
 #panelists .member .member-info-content span,
 #advisors .member .member-info-content span {
-  display: block;               /* ensure the org line renders */
-  line-height: 1.2;
+  display: block;
   font-size: 13px;
+  line-height: 1.2;
   color: #fff;
-  opacity: .9;
-  white-space: normal;          /* wrap long affiliations */
+  opacity: 0.9;
+  white-space: normal;
 }
-
-/* 4) Optional subtle lift on hover without hiding caption */
-.speakers .member:hover img,
-#organizers .member:hover img,
-#panelists .member:hover img,
-#advisors .member:hover img {
-  transform: scale(1.02);
-  transition: transform .25s ease;
-}
-
-/* === [PATCH] Show entire portrait (no cropping or zoom) for all members === */
-.speakers .member,
-#organizers .member,
-#panelists .member,
-#advisors .member {
-  position: relative;
-  width: 100%;
-  background: #000;           /* optional: letterbox background */
-  border-radius: 6px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: auto;         /* allow natural height from image */
-}
-
-/* Show entire image — same size, not zoomed/cropped */
-.speakers .member img,
-#organizers .member img,
-#panelists .member img,
-#advisors .member img {
-  width: 100%;
-  height: auto;               /* maintain natural aspect ratio */
-  object-fit: contain !important;  /* show full photo */
-  object-position: center center;
-  background-color: #000;     /* optional: fills any gaps */
-  transform: none !important;
-}
-
-/* Optional: limit max height so rows stay uniform */
-.speakers .member img,
-#organizers .member img,
-#panelists .member img,
-#advisors .member img {
-  max-height: 320px;          /* adjust to balance row height */
-}
-
-/* Disable hover zoom globally */
-.speakers .member:hover img,
-#organizers .member:hover img,
-#panelists .member:hover img,
-#advisors .member:hover img {
-  transform: none !important;
-}
-
-/* Keep overlay formatting intact */
-.speakers .member .member-info,
-#organizers .member .member-info,
-#panelists .member .member-info,
-#advisors .member .member-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 12px 14px;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 35%, rgba(0,0,0,0.8) 100%);
-}
-
-
-/* === [FINAL PATCH] Consistent white boxes with full images (no cropping) === */
-
-/* --- Common card style for all --- */
-.speakers .member,
-#organizers .member,
-#panelists .member,
-#advisors .member {
-  position: relative;
-  background: #fff;             /* white background */
-  border-radius: 6px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* --- Speakers: larger uniform boxes --- */
-.speakers .member {
-  width: 100%;
-  height: 360px;                /* consistent box height */
-}
-
-/* --- Organizers: slightly smaller --- */
-#organizers .member {
-  width: 100%;
-  height: 300px;
-}
-
-/* --- Advisors: same smaller size --- */
-#advisors .member {
-  width: 100%;
-  height: 300px;
-}
-
-/* --- Image: show entire photo without cropping --- */
-.speakers .member img,
-#organizers .member img,
-#panelists .member img,
-#advisors .member img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain !important; /* show full photo */
-  object-position: center center;
-  background-color: #fff;         /* blends with card */
-  transform: none !important;
-}
-
-/* --- Disable hover zoom globally --- */
-.speakers .member:hover img,
-#organizers .member:hover img,
-#panelists .member:hover img,
-#advisors .member:hover img {
-  transform: none !important;
-}
-
-/* --- Keep overlay consistent across all groups --- */
-.speakers .member .member-info,
-#organizers .member .member-info,
-#panelists .member .member-info,
-#advisors .member .member-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 12px 14px;
-  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.75) 100%);
-  color: #fff;
-}
-
-/* --- Optional fallback (use fixed height instead of aspect-ratio) ---
-.speakers .member,
-#organizers .member,
-#panelists .member,
-#advisors .member { height: 320px; }
-
-.speakers .member img,
-#organizers .member img,
-#panelists .member img,
-#advisors .member img { height: 100%; object-fit: cover; object-position: 50% 35%; }
---------------------------------------------------------------------- */
 
