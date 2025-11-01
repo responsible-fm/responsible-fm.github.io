@@ -1703,79 +1703,53 @@ section,
   cursor: pointer;
 }
 
-/* === FINAL: Uniform white cards + top-anchored scaling === */
-
-/* Make each grid column stretch its card so all boxes align */
-#speakers .row.gy-4 > [class*="col-"],
-#organizers .row.gy-4 > [class*="col-"],
-#panelists .row.gy-4 > [class*="col-"],
-#advisors  .row.gy-4 > [class*="col-"] {
-  display: flex;
-}
-#speakers .row.gy-4 > [class*="col-"] > .member,
-#organizers .row.gy-4 > [class*="col-"] > .member,
-#panelists .row.gy-4 > [class*="col-"] > .member,
-#advisors  .row.gy-4 > [class*="col-"] > .member {
-  width: 100%;
-}
-
-/* Base card (all groups) */
+/* === UNIFORM SQUARE HEADSHOTS, TOP-ANCHORED SCALING (ALL GROUPS) === */
+/* One rule-set for all person cards */
 .speakers .member,
 #organizers .member,
 #panelists .member,
 #advisors .member {
   position: relative;
-  background: #fff !important;
-  border-radius: 6px;
+  background: #fff;
+  border-radius: 8px;
   overflow: hidden;
-  display: flex;
-  align-items: flex-start;   /* top alignment */
-  justify-content: center;
+  /* Make every tile a perfect square. Width comes from the Bootstrap column. */
+  aspect-ratio: 1 / 1;
+  /* Keep the card participating in flex/grids cleanly */
+  display: block;
 }
 
-/* Consistent box height per section */
-.speakers .member { height: 360px !important; }
-#organizers .member,
-#panelists .member,
-#advisors .member { height: 300px !important; }
-
-/* === IMAGE SETTINGS ===
-   1. Show full photo
-   2. Scale from the top (heads visible)
-   3. Keep all images same visual size
-*/
+/* Make the image fill the square, scale from TOP (not center) */
 .speakers .member img,
 #organizers .member img,
 #panelists .member img,
 #advisors .member img {
+  position: absolute;     /* cover the square tile */
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover !important;          /* fill area without letterboxing */
-  object-position: center top !important;/* top-based scaling */
-  background: #fff !important;
-  transform-origin: top center !important; /* zoom from top */
+  object-fit: cover;       /* fill the square; crop only bottom/sides if needed */
+  object-position: 50% 0;  /* TOP-anchored (heads safe) */
+  transform-origin: 50% 0; /* zoom from top if any transform is applied */
   display: block;
-  transition: transform 0.25s ease;
+  background: #fff;
 }
 
-/* Optional subtle hover lift (also from top) */
+/* Optional, subtle hover lift (still from TOP). Remove if you want zero motion. */
 .speakers .member:hover img,
 #organizers .member:hover img,
 #panelists .member:hover img,
 #advisors .member:hover img {
-  transform: scale(1.03);
-  transform-origin: top center !important;
+  transform: scale(1.02);
 }
 
-/* Overlay (caption area) */
+/* Keep the caption overlay consistent and readable */
 .speakers .member .member-info,
 #organizers .member .member-info,
 #panelists .member .member-info,
 #advisors .member .member-info {
-  position: absolute !important;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
   padding: 12px 14px;
   background: linear-gradient(
     180deg,
@@ -1784,10 +1758,10 @@ section,
     rgba(0,0,0,0.75) 100%
   );
   color: #fff;
-  transform: none !important;
+  pointer-events: none; /* keeps whole card clickable if you wrapped it in <a> */
 }
 
-/* Overlay text wrapping */
+/* Text wrap & size (unchanged visual style) */
 .speakers .member .member-info-content h4,
 #organizers .member .member-info-content h4,
 #panelists .member .member-info-content h4,
@@ -1806,7 +1780,20 @@ section,
   font-size: 13px;
   line-height: 1.2;
   color: #fff;
-  opacity: 0.9;
+  opacity: .9;
   white-space: normal;
 }
+
+/* --- (Optional) Section-specific density controls ---------------------------
+   If you want organizers/advisors tiles a little denser on wide screens,
+   you can shrink their squares slightly without touching speakers. */
+
+@media (min-width: 992px) {
+  #organizers .member,
+  #panelists .member,
+  #advisors .member {
+    border-radius: 8px;  /* same look; height stays square via aspect-ratio */
+  }
+}
+
 
