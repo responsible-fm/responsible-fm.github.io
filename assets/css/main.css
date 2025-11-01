@@ -3610,3 +3610,30 @@ section,
   font-size: 14px;
   margin-top: 4px;
 }
+
+/* === FORCE BLACK TEXT FOR PEOPLE CARDS (wins over theme) === */
+.speakers .member .member-info,
+#organizers .member .member-info,
+#panelists .member .member-info,
+#advisors .member .member-info {
+  color:#000 !important;
+  text-shadow:none !important;
+  mix-blend-mode:normal !important;
+  opacity:1 !important;
+}
+
+/* ensure all descendants + links are black */
+.speakers .member .member-info *,
+#organizers .member .member-info *,
+#panelists .member .member-info *,
+#advisors  .member .member-info * {
+  color:#000 !important;
+}
+
+.speakers .member .member-info-content h4 a,
+#organizers .member .member-info-content h4 a,
+#panelists .member .member-info-content h4 a,
+#advisors  .member .member-info-content h4 a {
+  color:#000 !important;
+  text-decoration:none;
+}
