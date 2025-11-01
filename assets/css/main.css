@@ -3526,44 +3526,75 @@ section,
   cursor: pointer;
 }
 
-/* === Minimal image fix: square & top-anchored crop (only images) === */
+/* === PEOPLE CARDS: final overrides (place at very end) === */
+
+/* 0) Bigger tiles – tweak size here */
+:root { --people-size: 168px; } /* try 180–200 if you want even larger */
+
+/* 1) Force black text in these sections */
+.speakers, #organizers, #panelists, #advisors {
+  --default-color: #000 !important;
+  --heading-color: #000 !important;
+  color: #000 !important;
+}
+
+/* 2) Normal flow card (no absolute overlay), centered in column */
+.speakers .member,
+#organizers .member,
+#panelists .member,
+#advisors .member {
+  position: static !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 6px 0 !important;
+  margin: 0 auto 18px !important;
+}
+
+/* 3) Square, top-anchored headshot, larger size */
 .speakers .member img,
 #organizers .member img,
 #panelists .member img,
 #advisors .member img {
-  width: 100%;
-  /* Make the image a perfect square using intrinsic aspect-ratio */
-  aspect-ratio: 1 / 1;
-  /* Fill the square and crop from the top */
+  width: var(--people-size) !important;
+  height: var(--people-size) !important;   /* explicit square */
+  aspect-ratio: auto !important;           /* prevent other rules restoring 1/1 */
   object-fit: cover;
-  object-position: 50% 0;
+  object-position: 50% 0;                  /* top anchored */
   display: block;
+  border-radius: 12px;
+  box-shadow: 0 6px 22px rgba(0,0,0,.12);
+  transform: none !important;               /* cancel hover zoom if any */
 }
 
-/* === FINAL CLEANUP for speaker/organizer cards === */
-
-/* Force text to be black and below the image */
+/* 4) Caption below the image (no overlay), black text */
 .speakers .member .member-info,
 #organizers .member .member-info,
 #panelists .member .member-info,
 #advisors .member .member-info {
-  position: static !important;   /* ensures text follows normal flow */
+  position: static !important;
+  inset: auto !important;
   background: transparent !important;
   color: #000 !important;
-  text-align: center !important;
-  margin-top: 6px !important;
+  margin-top: 8px !important;
   padding: 0 !important;
   box-shadow: none !important;
+  opacity: 1 !important;
 }
 
-/* Text styling */
+/* 5) Typography */
 .speakers .member .member-info-content h4,
 #organizers .member .member-info-content h4,
 #panelists .member .member-info-content h4,
 #advisors .member .member-info-content h4 {
   color: #000 !important;
-  font-weight: 600 !important;
-  margin: 4px 0 2px !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  margin: 0 0 3px !important;
+  line-height: 1.25 !important;
 }
 
 .speakers .member .member-info-content span,
@@ -3571,20 +3602,132 @@ section,
 #panelists .member .member-info-content span,
 #advisors .member .member-info-content span {
   color: #333 !important;
-  font-size: 13px !important;
-  font-style: italic;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
 }
 
-/* Image stays square and top-anchored */
+/* 6) Neutralize any overlay/hover rules that might re-apply */
+.speakers .member:hover .member-info,
+#organizers .member:hover .member-info,
+#panelists .member:hover .member-info,
+#advisors .member:hover .member-info {
+  bottom: auto !important;
+  transform: none !important;
+}
+/* ===== PEOPLE CARDS: nuclear overrides (must be last) ===== */
+
+/* Size knob (bigger heads) */
+:root { --people-size: 192px; } /* try 180–220 if you want larger */
+
+/* Force black text regardless of parent sections/themes */
+.speakers, #organizers, #panelists, #advisors {
+  --default-color: #000 !important;
+  --heading-color: #000 !important;
+  color: #000 !important;
+}
+
+/* 1) Card container: remove overlay behavior and center content */
+.speakers .member,
+#organizers .member,
+#panelists .member,
+#advisors .member {
+  position: static !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 8px 0 !important;
+  margin: 0 auto 18px !important;
+  overflow: visible !important;
+}
+
+/* 2) Image: perfect square, top-anchored crop */
 .speakers .member img,
 #organizers .member img,
 #panelists .member img,
 #advisors .member img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
+  width: var(--people-size) !important;
+  height: var(--people-size) !important;
+  aspect-ratio: auto !important;   /* prevent template from re-forcing 1/1 */
   object-fit: cover;
-  object-position: 50% 0;
+  object-position: 50% 0;          /* top-anchored */
   display: block;
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 6px 22px rgba(0,0,0,.12);
+  transform: none !important;      /* kill hover zoom if any */
+}
+
+/* 3) Caption becomes normal text below image (no absolute overlay) */
+.speakers .member .member-info,
+#organizers .member .member-info,
+#panelists .member .member-info,
+#advisors .member .member-info {
+  position: static !important;
+  inset: auto !important;
+  background: transparent !important;
+  color: #000 !important;
+  margin-top: 8px !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+/* 4) Typography */
+.speakers .member .member-info-content h4,
+#organizers .member .member-info-content h4,
+#panelists .member .member-info-content h4,
+#advisors .member .member-info-content h4 {
+  color: #000 !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  margin: 0 0 3px !important;
+  line-height: 1.25 !important;
+}
+
+/* Make the NAME link black too (template sets it white by default) */
+.speakers .member .member-info-content h4 a,
+#organizers .member .member-info-content h4 a,
+#panelists .member .member-info-content h4 a,
+#advisors .member .member-info-content h4 a {
+  color: #000 !important;
+  text-decoration: none;
+}
+.speakers .member .member-info-content h4 a:hover,
+#organizers .member .member-info-content h4 a:hover,
+#panelists .member .member-info-content h4 a:hover,
+#advisors .member .member-info-content h4 a:hover {
+  color: #000 !important;
+  text-decoration: underline;
+}
+
+.speakers .member .member-info-content span,
+#organizers .member .member-info-content span,
+#panelists .member .member-info-content span,
+#advisors .member .member-info-content span {
+  color: #333 !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+}
+
+/* 5) Neutralize any overlay-on-hover behavior */
+.speakers .member:hover .member-info,
+#organizers .member:hover .member-info,
+#panelists .member:hover .member-info,
+#advisors .member:hover .member-info {
+  bottom: auto !important;
+  transform: none !important;
+}
+
+/* 6) If the whole section sits on a dark background, still force black text */
+.dark-background .speakers,
+.dark-background #organizers,
+.dark-background #panelists,
+.dark-background #advisors {
+  --default-color: #000 !important;
+  --heading-color: #000 !important;
+  color: #000 !important;
 }
