@@ -3539,3 +3539,52 @@ section,
   object-position: 50% 0;
   display: block;
 }
+
+/* === FINAL CLEANUP for speaker/organizer cards === */
+
+/* Force text to be black and below the image */
+.speakers .member .member-info,
+#organizers .member .member-info,
+#panelists .member .member-info,
+#advisors .member .member-info {
+  position: static !important;   /* ensures text follows normal flow */
+  background: transparent !important;
+  color: #000 !important;
+  text-align: center !important;
+  margin-top: 6px !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Text styling */
+.speakers .member .member-info-content h4,
+#organizers .member .member-info-content h4,
+#panelists .member .member-info-content h4,
+#advisors .member .member-info-content h4 {
+  color: #000 !important;
+  font-weight: 600 !important;
+  margin: 4px 0 2px !important;
+}
+
+.speakers .member .member-info-content span,
+#organizers .member .member-info-content span,
+#panelists .member .member-info-content span,
+#advisors .member .member-info-content span {
+  color: #333 !important;
+  font-size: 13px !important;
+  font-style: italic;
+}
+
+/* Image stays square and top-anchored */
+.speakers .member img,
+#organizers .member img,
+#panelists .member img,
+#advisors .member img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: 50% 0;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
