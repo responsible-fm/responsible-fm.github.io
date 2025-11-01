@@ -1691,40 +1691,48 @@ section,
 
 /* === [PATCH] Normalize headshot cards & fix overlay clipping === */
 
+/* 0) Target all four grids uniformly */
+.speakers .member,
+#organizers .member,
+#panelists .member,
+#advisors .member {
+  position: relative;
+  aspect-ratio: 4 / 3;          /* consistent, slightly taller tiles */
+  background: #000;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
 /* 1) Make all member photos the same shape and crop neatly */
 .speakers .member img,
 #organizers .member img,
 #panelists .member img,
 #advisors .member img {
   width: 100%;
-  aspect-ratio: 4 / 3;      /* uniform tiles; change to 1/1 if you prefer squares */
-  height: auto;
-  object-fit: cover;        /* center-crop different source ratios */
+  height: 100%;
   display: block;
+  object-fit: cover;            /* uniform crop across mixed source ratios */
+  object-position: 50% 35%;     /* keep foreheads in frame; tweak 30–40% if needed */
 }
-
-/* Fallback if you prefer fixed height instead of aspect-ratio:
-.speakers .member img,
-#organizers .member img,
-#panelists .member img,
-#advisors .member img { height: 320px; object-fit: cover; }
-*/
 
 /* 2) Keep the black overlay fully visible (not hidden below the image) */
 .speakers .member .member-info,
 #organizers .member .member-info,
 #panelists .member .member-info,
 #advisors .member .member-info {
-  inset: auto 0 0 0 !important;  /* bottom: 0; make it sit on the image */
-  background: rgba(0,0,0,0.65);
-  padding: 12px 14px;
-  min-height: 64px;              /* room for name + affiliation */
-  overflow: visible;             /* do not clip two lines */
-  transform: none !important;    /* some themes slide it; keep fixed */
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  inset: auto 0 0 0 !important; /* override theme’s negative bottom */
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%,
+                                         rgba(0,0,0,.25) 20%,
+                                         rgba(0,0,0,.75) 100%);
+  padding: 14px 16px;
+  min-height: 80px;             /* room for name + affiliation (2 lines) */
+  overflow: visible;            /* don’t clip wrapping text */
+  transform: none !important;   /* keep fixed (theme sometimes slides it) */
 }
 
-/* The theme currently reveals overlay on hover by moving it up.
-   Neutralize that so it's always visible. */
+/* The theme reveals overlay on hover by moving it up; neutralize that */
 .speakers .member:hover .member-info,
 #organizers .member:hover .member-info,
 #panelists .member:hover .member-info,
@@ -1737,73 +1745,43 @@ section,
 #organizers .member .member-info-content h4,
 #panelists .member .member-info-content h4,
 #advisors .member .member-info-content h4 {
-  margin: 0 0 2px 0;
-  line-height: 1.15;
-  font-size: 1.05rem;
-  white-space: normal;           /* wrap; prevents truncation */
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+  font-size: 16px;              /* ≈ 1rem */
+  white-space: normal;          /* wrap; prevents truncation */
+  color: #fff;
 }
 
 .speakers .member .member-info-content span,
 #organizers .member .member-info-content span,
 #panelists .member .member-info-content span,
 #advisors .member .member-info-content span {
-  display: block;                /* ensure the org line renders */
-  line-height: 1.1;
-  font-size: 0.9rem;
-  color: #fff;
-  opacity: 0.9;
-  white-space: normal;           /* wrap long affiliations */
-}
-
-/* === SpaVLE: speaker/member tile fixes === */
-.speakers .member{
-  position: relative;
-  /* Make every tile the same shape and stop layout jumps */
-  aspect-ratio: 16/10;            /* tweak to 4/3 if you prefer taller tiles */
-  background: #000;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-/* Fill the tile, keep heads in frame */
-.speakers .member img{
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;               /* uniform crop */
-  object-position: 50% 15%;        /* bias upward so foreheads aren’t cut; adjust 10–20% to taste */
-}
-
-/* Caption bar: always fully inside the card (no negative bottom) */
-.speakers .member .member-info{
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  padding: 12px 14px;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.25) 20%, rgba(0,0,0,.7) 100%);
-  inset: auto 0 0 0 !important;    /* override template’s -44px */
-  transition: transform .25s ease;
-  transform: translateY(0);        /* keep visible on mobile too */
-  min-height: 64px;                /* room for name + affiliation */
-}
-
-/* Text styling + wrapping so long names don't clip */
-.speakers .member .member-info-content h4{
-  margin: 0 0 4px;
-  font-size: 16px;
+  display: block;               /* ensure the org line renders */
   line-height: 1.2;
-  white-space: normal;
-}
-.speakers .member .member-info-content span{
-  display: block;
   font-size: 13px;
-  line-height: 1.2;
+  color: #fff;
   opacity: .9;
-  white-space: normal;
+  white-space: normal;          /* wrap long affiliations */
 }
 
-/* Optional subtle lift on hover without hiding caption */
-.speakers .member:hover img{
+/* 4) Optional subtle lift on hover without hiding caption */
+.speakers .member:hover img,
+#organizers .member:hover img,
+#panelists .member:hover img,
+#advisors .member:hover img {
   transform: scale(1.02);
   transition: transform .25s ease;
 }
+
+/* --- Optional fallback (use fixed height instead of aspect-ratio) ---
+.speakers .member,
+#organizers .member,
+#panelists .member,
+#advisors .member { height: 320px; }
+
+.speakers .member img,
+#organizers .member img,
+#panelists .member img,
+#advisors .member img { height: 100%; object-fit: cover; object-position: 50% 35%; }
+--------------------------------------------------------------------- */
 
